@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import 'katex/dist/katex.min.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --midnight-ink: #242D36;
+  --stormy-slate: #536372;
+  --eerie-sage: #899C96;
+  --silver-fog: #BBC5C5;
+  --spectral-white: #EDF0E9;
+}
+
+body {
+  background-color: #C8D1D1;
+  color: #242D36;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #53637233;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #53637266;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.font-arabic {
+  font-family: 'Cairo', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, sans-serif;
+  line-height: 1.8;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+/* =========================================================================
+   KaTeX BiDi Isolation & Math Rendering (Ghostly Fog Theme)
+   ========================================================================= */
+.katex, .katex-display {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  text-align: left !important;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.6rem 0;
+  margin: 0.75rem 0 !important;
+  text-align: center !important;
+}
+
+.katex {
+  font-size: 1.05em;
+  line-height: 1.2;
+}
+
+/* =========================================================================
+   Ghostly Fog Markdown Tables (GFM)
+   ========================================================================= */
+.prose-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: 0.85rem;
+  border: 1px solid #BBC5C5;
+  box-shadow: 0 1px 3px rgba(36, 45, 54, 0.08);
+  background-color: #FFFFFF;
+}
+
+.prose-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.825rem;
+  text-align: center;
+  direction: ltr; /* Formulas, numbers, indices are best left-to-right */
+}
+
+.prose-table th {
+  background-color: #242D36;
+  color: #EDF0E9;
+  font-weight: 700;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #3d4a57;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.prose-table td {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #BBC5C5;
+  color: #242D36;
+  font-size: 0.85rem;
+}
+
+.prose-table tr:nth-child(even) {
+  background-color: #F4F6F4;
+}
+
+.prose-table tr:nth-child(odd) {
+  background-color: #FFFFFF;
+}
+
+.prose-table tr:hover {
+  background-color: #EDF0E9;
+}
