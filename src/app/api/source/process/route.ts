@@ -78,8 +78,32 @@ Return ONLY valid JSON matching this schema:
       }
 
       const callGemini = async (key: string) => {
+        const models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-2.5-flash"];
+        for (const model of models) {
+          try {
+            const res = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  contents: [{ role: "user", parts }],
+                  generationConfig: {
+                    temperature: 0.1,
+                    responseMimeType: "application/json",
+                  },
+                }),
+              }
+            );
+            if (res.ok || res.status === 429) {
+              return res;
+            }
+          } catch (e) {
+            console.warn(`Model ${model} request failed:`, e);
+          }
+        }
         return await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${key}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

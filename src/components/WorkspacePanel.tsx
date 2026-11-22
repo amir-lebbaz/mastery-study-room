@@ -589,7 +589,7 @@ export const WorkspacePanel: React.FC<WorkspacePanelProps> = ({
               <div className="py-8 flex flex-col items-center justify-center gap-3 text-stormy-slate">
                 <RotateCw className="w-6 h-6 animate-spin text-eerie-sage" />
                 <p className="text-xs font-arabic">
-                  جاري تحضير شرح التأسيس المعمق عبر Gemini 2.5 Flash...
+                  جاري تحضير شرح التأسيس المعمق عبر الذكاء الاصطناعي...
                 </p>
               </div>
             ) : (

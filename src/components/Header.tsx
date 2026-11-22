@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = ({
         <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-900 border border-emerald-300 shadow-2xs">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
-          <span>Gemini 2.5 Flash</span>
+          <span>Gemini 3.5 Flash</span>
         </span>
 
         {/* 1-Click Zen Mode Button */}

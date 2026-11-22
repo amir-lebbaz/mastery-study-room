@@ -288,29 +288,48 @@ MANDATORY INTENT CLASSIFICATION & PEDAGOGICAL INSTRUCTIONS:
       generationConfig,
     });
 
-    // 3. Graceful 429 Rate-Limit Handling + Fallback API Key
-    let activeKey = primaryApiKey;
-    let response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: payloadBody,
+    // 3. Resilient Multi-Model Invocation & 429 Fallback Handling
+    const candidateModels = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-2.5-flash"];
+
+    const executeGeminiRequest = async (key: string) => {
+      let lastRes: Response | null = null;
+      for (const m of candidateModels) {
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: payloadBody,
+            }
+          );
+          if (res.ok || res.status === 429) {
+            return res;
+          }
+          lastRes = res;
+        } catch (e) {
+          console.warn(`Model ${m} fetch error:`, e);
+        }
       }
-    );
+      return (
+        lastRes ||
+        (await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${key}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: payloadBody,
+          }
+        ))
+      );
+    };
+
+    let response = await executeGeminiRequest(primaryApiKey);
 
     // If 429 Rate Limit occurs and fallback key exists, retry once with fallback key
     if (response.status === 429 && fallbackApiKey && fallbackApiKey !== primaryApiKey) {
       console.warn("Primary Gemini key hit 429 rate limit. Retrying with GEMINI_API_KEY_FALLBACK...");
-      activeKey = fallbackApiKey;
-      response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: payloadBody,
-        }
-      );
+      response = await executeGeminiRequest(fallbackApiKey);
     }
 
     if (response.status === 429) {
